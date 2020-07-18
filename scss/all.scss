@@ -1,0 +1,179 @@
+@import "utility.scss";
+@import "animate.scss";
+
+@include default-config;
+
+$lateral_spacing: 8%;
+
+.animated{
+    @include anim-prop(0.5s !important, ease-in-out !important);
+}
+
+.transport-problem{
+    .title{
+        @extend %d-table;
+        @include size(100%, 150px);
+        @include colorbg(white, linear-gradient(90deg, $accent, $primary));
+        @include padding(48px $lateral_spacing);
+        .title-text{
+            @include t-shadow(-1px 1px 6px $black_rgba_3);
+        }
+        .title-middle{
+            @extend %d-table-cell;
+            @extend %vert-middle;
+        }
+    }
+    .content{
+        @include padding(24px $lateral_spacing 64px $lateral_spacing);
+        .options{
+            @extend %text-no-wrap;
+            .option{
+                @extend %outline-none;
+                @include display(inline-block);
+                @include padding(8px 24px);
+                @include border(none);
+                @include transition(all .2s ease-in-out); 
+                @include cursor;
+                @include colorbg($accent, white);
+                @include margin(8px 0 0 0);
+                @include border(1px solid $accent);
+                &:hover, &:active{
+                    @include padding(8px 32px);
+                }
+            }
+            .start-option{
+                @include margin(8px -5px 0 0);
+                @include radius(100px 0 0 100px);
+            }
+            .end-option{
+                @include margin(8px 0 0 -5px);
+                @include radius(0 100px 100px 0);
+            }
+            .selected{
+                @include colorbg(white, $accent);
+            }
+        }
+        .option-title{
+            @include border(1px solid $black_rgba_2);
+            @include radius(5px);
+            @include padd-marg(24px, 16px 0);
+        }
+        .actions{
+            @include padding(0 16px 8px 0);
+            @extend %no-selection;
+            @include media(max-width, $screen_lg){
+                @include size(100%, null);
+                @include text-align(center);
+            }
+            @include media(max-width, $screen_sm){
+                @include padding(0);
+                @include padding(8px, bottom);
+            }
+            button{
+                @extend %outline-none;
+                @include m-size(min, 200px, null);
+                @include padding(10px 24px);
+                @include radius(5px);
+                @include transition(all .2s ease-in-out);
+                @include cursor;
+                @include margin(8px 8px 8px 0);
+                @include media(max-width, $screen_sm){
+                    @include size(100%, null);
+                    @include margin(8px 0);
+                }
+            }
+            .main-action{
+                @include font($primary, 18px, bold, white);
+                @include border(1px solid $primary);
+                &:hover, &:active, &:focus{
+                    @include colorbg(white, $primary);
+                }
+            }
+            .secondary-action{
+                @include font($accent, 18px, bold, white);
+                @include border(1px solid $accent);
+                &:hover, &:active, &:focus{
+                    @include colorbg(white, $accent);
+                }
+            }
+        }
+        .fields{
+            @include media(max-width, $screen_lg){
+                @include size(100%, null);
+            }
+            .field{
+                @extend %outline-none;
+                @extend %d-inline-block;
+                @include radius(5px);
+                @include border(1px solid $grey_4);
+                @include padding(12px 24px);
+                @include margin(8px 8px 8px 0);
+                @include transition(all .2s ease-in-out);
+                @include text-align(center);
+                @include media(max-width, $screen_lg){
+                    @include size(100%, null);
+                    @include margin(8px 0);
+                }
+                &:focus{
+                    @include border(1px solid $grey_6);
+                }
+                &:disabled{
+                    @include colorbg(null, $disabled);
+                }
+            }
+            .field_center{
+                @include margin(12px auto);
+            }
+        }
+        .error{
+            @include colorbg($error);
+            @include transition(all .2s ease-in-out);
+            @include padding(8px, bottom);
+            @include display(block);
+        }
+        .data-table{
+            @extend %scroll-2;
+            thead th, tbody td{
+                @extend %fw-bold;
+                @extend %vert-middle;
+            }
+            .data-inp{
+                @extend %outline-none;
+                @include colorbg(null, transparent);
+                @extend %d-block;
+                @include size(100%);
+                @include padding(12px 0);
+                @include border(none);
+                @include radius(5px);
+                @include transition(all .2s ease-in-out);
+                @include text-align(center);
+                @include border(1px solid $black_rgba_1);
+                &:focus{
+                    @include colorbg($accent, $black_rgba_1);
+                }
+            }
+            .line_count{
+                .delete_line{
+                    @include display(none);
+                    @include cursor(pointer);
+                    @include font(white, 16px, bold, $error);
+                    @include radius(100%);
+                    @include padding(8px 12px);
+                }
+                &:hover{
+                    .delete_line{
+                        @include display(inline-block);
+                    }
+                    .line_number{
+                        @include display(none);
+                    }
+                }
+            }
+            .big_line{
+                td{
+                    @include padding(24px);
+                }
+            }
+        }
+    }
+}

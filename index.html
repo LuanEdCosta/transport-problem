@@ -1,0 +1,73 @@
+<html lang="pt-br">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" type="image/x-icon" href="images/logo.png">
+  <title>Inicialização Problema de Transporte</title>
+  <link rel="stylesheet" type="text/css" href="dependencies/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="css/animate.min.css">
+  <link rel="stylesheet" type="text/css" href="css/all.min.css">
+  <script type="text/javascript" src="dependencies/jquery/jquery3.3.1.js" defer></script>
+  <script type="text/javascript" src="dependencies/bootstrap/js/bootstrap.min.js" defer></script>
+  <script type="text/javascript" src="js/General.js" defer></script>
+  <script type="text/javascript" src="js/Main.js" defer></script>
+</head>
+
+<body>
+  <div class="transport-problem">
+    <div class="title">
+      <div class="title-middle">
+        <h1 class="font-weight-bold title-text">Inicialização do Problema de Transporte</h1>
+        <h6 class="font-weight-bold">Criado Por: Luan Eduardo da Costa</h6>
+      </div>
+    </div>
+
+    <div class="content animated fadeIn">
+      <div class="text-primary fw-bold font-size-5 text-uppercase mt-2">Escolha o Modo de Inicialização</div>
+      <div class="options">
+        <button type="button" class="option start-option selected" cantonoroeste>Canto Noroeste</button>
+        <button type="button" class="option end-option" custominimo>Custo Mínimo</button>
+      </div>
+
+      <div>
+        <div class="option-title">
+          <h4 class="font-weight-bold mb-3">Inicialização com <span class="text-accent" modeText>Canto Noroeste</span>
+          </h4>
+          <h6>1º - Defina X e Y (quantos enviam e quantos recebem, respectivamente).</h6>
+          <h6>2º - Clique em continuar para criar a tabela de custos.</h6>
+          <h6>3º - Preencha a tabela de custos balanceando as quantidades máximas.</h6>
+          <h6>4º - Clique em continuar novamente para calcular.</h6>
+        </div>
+
+        <div class="text-primary fw-bold font-size-5 text-uppercase mt-2">Entrada de dados</div>
+        <hr class="my-2">
+        <div class="fields d-inline-block">
+          <input type="text" class="field" placeholder="Quantos Enviam (X)" xVal>
+          <input type="text" class="field" placeholder="Quantos Recebem (Y)" yVal>
+        </div>
+
+        <div class="actions d-inline-block">
+          <button type="button" class="secondary-action" reset>Reiniciar</button>
+          <button type="button" class="main-action" calculate>Continuar</button>
+        </div>
+
+        <div class="error" error></div>
+
+        <div tableContainer></div>
+
+        <div style="display: none" result>
+          <div class="text-primary fw-bold font-size-5 text-uppercase mt-2">Resultados Obtidos</div>
+          <hr class="my-2">
+          <div resultTable></div>
+          <div class="font-italic text-accent fw-bold font-size-6">
+            <span>Custo Final: </span>
+            <span finalCost></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

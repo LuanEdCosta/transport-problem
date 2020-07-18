@@ -1,0 +1,623 @@
+//VARIABLES --------------------------------------------------------------------
+
+$accent: #6b20f5;
+$primary: #208ef5;
+
+$snow: #f8f8f8;
+$error: #ff6666;
+$success: #33cc00;
+$disabled: #e9ecef;
+
+$grey_8: #2c2c2c;
+$grey_7: #4d4d4d;
+$grey_6: #666666;
+$grey_5: #888888;
+$grey_4: #999999;
+$grey_3: #bfbfbf;
+$grey_2: #d9d9d9;
+$grey_1: #f2f2f2;
+
+$black_rgba_1: rgba(0, 0, 0, .1);
+$black_rgba_2: rgba(0, 0, 0, .2);
+$black_rgba_3: rgba(0, 0, 0, .3);
+$black_rgba_4: rgba(0, 0, 0, .4);
+$black_rgba_5: rgba(0, 0, 0, .5);
+$black_rgba_6: rgba(0, 0, 0, .6);
+$black_rgba_7: rgba(0, 0, 0, .7);
+$black_rgba_8: rgba(0, 0, 0, .8);
+$black_rgba_9: rgba(0, 0, 0, .9);
+
+$white_rgba_1: rgba(255, 255, 255, .1);
+$white_rgba_2: rgba(255, 255, 255, .2);
+$white_rgba_3: rgba(255, 255, 255, .3);
+$white_rgba_4: rgba(255, 255, 255, .4);
+$white_rgba_5: rgba(255, 255, 255, .5);
+$white_rgba_6: rgba(255, 255, 255, .6);
+$white_rgba_7: rgba(255, 255, 255, .7);
+$white_rgba_8: rgba(255, 255, 255, .8);
+$white_rgba_9: rgba(255, 255, 255, .9);
+
+$shadow_1: rgba(50, 50, 50, .7);
+
+//ENVIRONMENT VARIABLES --------------------------------------------------------
+
+$browser_prefixes: webkit moz ms o;
+$opera_prefix: o;
+$displays: block, none, inline-block, inline, flex, table, table-cell,
+    table-row, table-column, initial, inherit;
+$floats: none, left, right;
+$positions: absolute, relative, fixed, static, sticky;
+$decorations: underline, none, overline, line-through;
+$weights: bold, normal;
+$font_styles: normal, italic, oblique;
+$transforms: capitalize, uppercase, lowercase, none;
+$wbreaks: break-all, keep-all, normal;
+$valigns: auto, middle, text-top, text-bottom, top, bottom , baseline;
+$taligns: center, right, left, justify;
+$widths: 100, 90, 80, 70, 60, 50, 40, 30, 20, 10;
+$color_names: accent, primary, error, white, snow, success, disabled,
+grey-1, grey-2, grey-3, grey-4, grey-5, grey-6, grey-7, grey-8;
+$color_values: $accent, $primary, $error, white, $snow, $success, $disabled,
+$grey_1, $grey_2, $grey_3, $grey_4, $grey_5, $grey_6, $grey_7, $grey_8;
+
+//SIZES ------------------------------------------------------------------------
+
+$screen_xs_small: 438px;
+$screen_xs: 576px;
+$screen_sm: 768px;
+$screen_md: 992px;
+$screen_lg: 1200px;
+
+$height_xs: 450px;
+
+//MIXINS -----------------------------------------------------------------------
+
+@mixin flex-all-browsers{
+    display: -webkit-box; 
+    display: -webkit-flex; 
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -ms-flex;
+    display: -webkit-flex; 
+    display: flex;
+}
+
+@mixin default-config{
+    *, *::before, *::after{ @include smp-prefix(box-sizing, border-box, $browser_prefixes); }
+    html, body{ 
+        @extend %scroll-2;
+        @include m-size(min, null, 100vh);
+        font-family: Roboto, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        @include overflow(x, hidden);
+    }
+}
+
+@mixin smp-prefix($property, $value, $prefixes: ()) {
+    @each $prefix in $prefixes {
+        #{'-' + $prefix + '-' + $property}: $value;
+    }
+    #{$property}: $value;
+}
+
+@mixin prefix($declarations, $prefixes: ()) {
+    @each $property, $value in $declarations {
+        @each $prefix in $prefixes {
+            #{'-' + $prefix + '-' + $property}: $value;
+        }
+        #{$property}: $value;
+    }
+}
+
+@mixin m-auto($side: null){
+    @if $side { margin-#{$side}: auto; }
+    @else { margin: auto; }
+}
+
+@mixin radius($size){ border-radius: $size; }
+
+@mixin size($width, $height: $width) {
+    width: $width;
+    height: $height;
+}
+
+@mixin m-size($opt: mix, $width: null, $height: $width) {
+    #{$opt}-width: $width;
+    #{$opt}-height: $height;
+}
+
+@mixin border($border, $sides: null) {
+    @if $sides != null { @each $side in $sides{ border-#{$side}: $border; } }
+    @else{ border: $border; }
+}
+
+@mixin border-width($width: null) {
+    border-width: $width;
+}
+
+@mixin border-style($style: null) {
+    border-style: $style;
+}
+
+@mixin border-color($color: null) {
+    border-color: $color;
+}
+
+@mixin border-collapse($collapse: null) {
+    border-collapse: $collapse;
+}
+
+@mixin position-prop($top: null, $right: null, $bottom: null, $left: null){
+    top: $top;
+    right: $right;
+    bottom: $bottom;
+    left: $left;
+}
+
+@mixin position($position: null, $top: null, $right: null, $bottom: null, $left: null){
+    position: $position;
+    @include position-prop($top, $right, $bottom, $left);
+}
+
+@mixin transition($transition: null){
+    @include smp-prefix(transition, $transition, $browser_prefixes);
+}
+
+@mixin m-transition($property: (), $duration: .2s, $tm_func: linear, $delay: null){
+    @each $prop in $property{
+        @include smp-prefix(transition, $prop $duration $tm_func $delay, $browser_prefixes);
+    }
+}
+
+@mixin transform($value_name, $value: null){
+    @if $value_name == none { @include smp-prefix(transform, none, $browser_prefixes); }
+    @else { @include smp-prefix(transform, $value_name+'('+$value+')', $browser_prefixes); }
+}
+
+@mixin margin($value: null, $sides: null){
+    @if $sides == null { margin: $value; }
+    @else { @each $side in $sides { #{'margin-'+$side}: $value; } }
+}
+
+@mixin padding($value: null, $sides: null){
+    @if $sides == null { padding: $value; }
+    @else { @each $side in $sides { #{'padding-'+$side}: $value; } }
+}
+
+@mixin b-shadow($shadow: null){
+    @include smp-prefix(box-shadow, $shadow, $browser_prefixes);
+}
+
+@mixin img-bg($url: null, $repeat: no-repeat, $atachment: null, $position: null, $size: null){
+    background: url($url) $repeat $atachment $position;
+    @include smp-prefix(background-size, $size, $browser_prefixes);
+}
+
+@mixin img-gradient($gradient, $url, $repeat: no-repeat, $atachment: null, $position: null, $size: null){
+    background: $gradient, url($url);
+    background-repeat: $repeat;
+    background-attachment: $atachment;
+    background-position: $position;
+    @include smp-prefix(background-size, $size, $browser_prefixes);
+}
+
+@mixin gradient($direction: 0deg, $color1: null, $color2: null){
+    background: linear-gradient($direction, $color1, $color2);
+}
+
+@mixin media($property, $size){
+    @media only screen and ($property: $size){ @content; }
+}
+
+@mixin font($color: null, $size: null, $weight: null, $bg: null,
+    $align: null, $transform: null, $line_height: null){
+    color: $color;
+    font-size: $size;
+    font-weight: $weight;
+    background: $bg;
+    text-align: $align;
+    text-transform: $transform;
+    line-height: $line_height;
+}
+
+@mixin t-shadow($shadow: null){
+    text-shadow: $shadow;
+}
+
+@mixin colorbg($color: null, $bg: null){
+    color: $color;
+    background: $bg;
+}
+
+@mixin display($display: null){
+    @if $display == flex { @include flex-all-browsers; }
+    @else { display: $display; }
+    
+}
+
+@mixin clear($val: null){
+    clear: $val;
+}
+
+@mixin float($float: null){
+    float: $float;
+}
+
+@mixin index($index: null){
+    z-index: $index;
+}
+
+@mixin cursor($cursor: pointer){
+    cursor: $cursor;
+}
+
+@mixin f-style($style: italic){
+    font-style: $style;
+}
+
+@mixin overflow($axis: null, $value: null){
+    @if $axis == null { overflow: $value; }
+    @else { overflow-#{$axis}: $value; }
+}
+
+@mixin keyframe($animation_name) {
+    @-webkit-keyframes #{$animation_name} { @content; }
+    @-moz-keyframes #{$animation_name} { @content; }
+    @-o-keyframes #{$animation_name} { @content; }
+    @keyframes #{$animation_name} { @content; }
+}
+
+@mixin animation($name: null, $duration: null, $timing_function: null,
+    $delay: null, $iteration_count: null, $direction: null){
+    @include smp-prefix(animation, $name $duration $timing_function $delay $iteration_count $direction, $browser_prefixes);
+}
+
+@mixin anim-prop($duration: null, $timing_function: null,
+    $delay: null, $iteration_count: null, $direction: null){
+    @include smp-prefix(animation-duration, $duration, $browser_prefixes);
+    @include smp-prefix(animation-timing-function, $timing_function, $browser_prefixes);
+    @include smp-prefix(animation-delay, $delay, $browser_prefixes);
+    @include smp-prefix(animation-iteration-count, $iteration_count, $browser_prefixes);
+    @include smp-prefix(animation-direction, $direction, $browser_prefixes);
+}
+
+@mixin pseudo($pseudo: after, $content: ''){
+    &:#{$pseudo}{
+        content: $content;
+        @content;
+    }
+}
+
+@mixin flex-container($direction: null, $wrap: null, $justify-content: null,
+    $align-items: null, $align-content: null){
+    @include flex-all-browsers;
+    @include smp-prefix(flex-flow, $direction $wrap, $browser_prefixes);
+    @include smp-prefix(justify-content, $justify-content, $browser_prefixes);
+    @include smp-prefix(align-items, $align-items, $browser_prefixes);
+    @include smp-prefix(align-content, $align-content, $browser_prefixes);
+}
+
+@mixin flex-item($align-self: null, $flex-grow: null, $flex-shrink: null,
+    $flex-basis: null, $order: null){
+    @include smp-prefix(align-self, $align-self, $browser_prefixes);
+    @include smp-prefix(flex, $flex-grow $flex-shrink $flex-basis, $browser_prefixes);
+    @include smp-prefix(order, $order, $browser_prefixes);
+}
+
+@mixin text-align($direction: null){
+    text-align: $direction;
+}
+
+@mixin outline($outline: null, $offset: null){
+    outline: $outline;
+    outline-offset: $offset;
+}
+
+@mixin opacity($opacity: null){
+    @include smp-prefix(opacity, $opacity, $browser_prefixes);
+}
+
+@mixin text-trans($text: null){
+    text-transform: $text;
+}
+
+@mixin v-align($align: null){
+    vertical-align: $align;
+}
+
+@mixin border-color($color: null){
+    border-color: $color;
+}
+
+@mixin bg-color($color: null){
+    background-color: $color;
+}
+
+@mixin indent($indent: null){
+    text-indent: $indent;
+}
+
+@mixin l-spacing($space: null){
+    letter-spacing: $space;
+}
+
+@mixin line-height($height: null){
+    line-height: $height;
+}
+
+@mixin w-spacing($space: null){
+    word-spacing: $space;
+}
+
+@mixin w-break($break: null){
+    word-break: $break;
+}
+
+@mixin w-wrap($wrap: null){
+    word-wrap: $wrap;
+}
+
+@mixin ph-color($color: null){
+    ::-webkit-input-placeholder {
+        color: $color;
+    }
+    :-ms-input-placeholder {
+        color: $color;
+    }
+    ::-moz-placeholder {
+        color: $color;
+        opacity: 1;
+    }
+    :-moz-placeholder {
+        color: $color;
+        opacity: 1;
+    }
+    ::placeholder {
+        color: $color;
+    }
+}
+
+@mixin ph-style(){
+    ::-webkit-input-placeholder { @content; }
+    :-ms-input-placeholder { @content; }
+    ::-moz-placeholder { @content; }
+    :-moz-placeholder { @content; }
+    ::placeholder { @content; }
+}
+
+@mixin trans-hover($transition: null){
+    @include transition($transition);
+    &:hover{ @content; }
+}
+
+@mixin trans-hover-focus($transition: null){
+    @include transition($transition);
+    &:hover{ @content; }
+    &:focus{ @content; }
+}
+
+@mixin trans-active($transition: null){
+    @include transition($transition);
+    &:active{ @content; }
+}
+
+@mixin visibility($visibility: null){
+    visibility: $visibility;
+}
+
+@mixin padd-marg($padding: null, $margin: null){
+    @include padding($padding);
+    @include margin($margin);
+}
+
+//PLACEHOLDERS AND CLASSES -----------------------------------------------------------------
+
+@each $display in $displays{
+    %d-#{$display}{ 
+        @if $display == flex { @include flex-all-browsers; }
+        @else { display: $display; }
+    }
+    .d-#{$display}{ @extend %d-#{$display}; }
+}
+
+@each $float in $floats{
+    %fl-#{$float}{ float: $float; }
+    .fl-#{$float}{ @extend %fl-#{$float}; }
+}
+
+@each $style in $font_styles{
+    %font-#{$style}{ font-style: $style; }
+    .font-#{$style}{ @extend %font-#{$style}; }
+}
+
+@each $position in $positions{
+    %position-#{$position}{ position: $position; }
+    .pos-#{$position}{ @extend %position-#{$position}; }
+}
+
+@each $decoration in $decorations{
+    %text-decoration-#{$decoration}{ text-decoration: $decoration; }
+    .decor-#{$decoration}{ @extend %text-decoration-#{$decoration}; }
+}
+
+@each $weight in $weights{
+    %fw-#{$weight}{ font-weight: $weight; }
+    .fw-#{$weight}{ @extend %fw-#{$weight}; }
+}
+
+@each $trans in $transforms{
+    %text-#{$trans}{ text-transform: $trans; }
+    .text-#{$trans}{ @extend %text-#{$trans}; }
+}
+
+@each $wb in $wbreaks{
+    %wb-#{$wb}{ word-break: $wb; }
+    .wb-#{$wb}{ @extend %wb-#{$wb}; }
+}
+
+@each $align in $valigns{
+    %vert-#{$align}{ vertical-align: $align; }
+    .vert-#{$align}{ @extend %vert-#{$align}; }
+}
+
+@each $align in $taligns{
+    %text-#{$align}{ text-align: $align; }
+    .text-#{$align}{ @extend %text-#{$align}; }
+}
+
+%link-no-decoration{
+    &:hover, &:active, &:link, &:visited{
+        @extend %text-decoration-none;
+    }
+}
+.link-no-decoration{ @extend %link-no-decoration; }
+
+%outline-none{ outline: none; }
+.outline-none{ @extend %outline-none; }
+
+%text-no-wrap{ white-space: nowrap; }
+.text-no-wrap{ @extend %text-no-wrap; }
+
+%resize-none{ resize: none; }
+.resize-none{ @extend %resize-none; }
+
+%no-selection{ @include smp-prefix(user-select, none, $browser_prefixes); }
+.no-selection{ @extend %no-selection; }
+
+%hide-overflow-text{
+    white-space: nowrap;
+    @include overflow(null, hidden);
+    @include smp-prefix(text-overflow, ellipsis, $opera_prefix);
+}
+.hide-overflow-text{ @extend %hide-overflow-text; }
+
+%show-overflow-text{
+    white-space: normal;
+    @include overflow(null, auto);
+    @include smp-prefix(text-overflow, clip, $opera_prefix);
+}
+.show-overflow-text{ @extend %show-overflow-text; }
+
+%no-focus-border{
+    @include smp-prefix(box-shadow, none, $browser_prefixes);
+    &:hover, &:active, &:focus{
+        @include smp-prefix(box-shadow, none, $browser_prefixes);
+    }
+}
+.no-focus-border{ @extend %no-focus-border; }
+
+@for $i from 1 through length($color_values){
+    $color_name: nth($color_names, $i);
+    $color_value: nth($color_values, $i);
+    
+    %t-#{$color_name}{ @include colorbg($color_value); }
+    %bg-#{$color_name}{ @include colorbg(null, $color_value); }
+    %white-#{$color_name}{ @include colorbg(white, $color_value); }
+    %#{$color_name}-white{ @include colorbg($color_value, white); }
+    .text-#{$color_name}{ @extend %t-#{$color_name}; }
+    .bg-#{$color_name}{ @extend %bg-#{$color_name}; }
+    .white-#{$color_name}{ @extend %white-#{$color_name}; }
+    .#{$color_name}-white{ @extend %#{$color_name}-white; }
+}
+
+@for $i from 1 through 3{
+    .ic-span-#{$i}{ @include margin(#{$i * 0.5}em, left); }
+    .span-ic-#{$i}{ @include margin(#{$i * 0.5}em, right); }
+    .left-ic-#{$i}{ .left-ic-span{ @include margin(#{$i * 0.5}em, left); } }
+    .right-ic-#{$i}{ .right-ic-span{ @include margin(#{$i * 0.5}em, right); } }
+    .left-ic-spans-#{$i}{ span{ @include margin(#{$i * 0.5}em, left); } }
+    .right-ic-spans-#{$i}{ span{ @include margin(#{$i * 0.5}em, right); } }
+}
+
+$screens: xss, xs, sm, md, lg;
+$screen_values: $screen_xs_small, $screen_xs, $screen_sm, $screen_md, $screen_lg;
+
+@for $i from 1 through length($screens){
+    $screen_name: nth($screens, $i);
+    $screen_value: nth($screen_values, $i);
+
+    @for $j from 1 through length($displays){
+        $display_name: nth($displays, $j);
+        .d-#{$screen_name}-#{$display_name}{ 
+            @include media(max-width, $screen_value){
+                @include display($display_name); 
+            }
+        }
+    }
+
+    @for $j from 1 through length($floats){
+        $float_name: nth($floats, $j);
+        .fl-#{$screen_name}-#{$float_name}{ 
+            @include media(max-width, $screen_value){
+                @include float($float_name); 
+            }
+        }
+    }
+
+    @for $j from 1 through length($widths){
+        $width_name: nth($widths, $j);
+        .w-#{$screen_name}-#{$width_name}{ 
+            @include media(max-width, $screen_value){
+                @include size(#{$width_name + '%'} !important, null); 
+            }
+        }
+        .w-#{$width_name}{ 
+            @include size(#{$width_name + '%'}, null);
+        }
+    }
+}
+
+@for $i from 1 through 15 {
+    .font-size-#{$i}{
+        @include font(null, #{($i * 0.2) + 'rem'});
+    }
+}
+
+.radius-circle{ @include radius(100%); }
+
+%scroll-1{
+    &:hover{
+        &::-webkit-scrollbar{ 
+            @include display(block);
+        }
+    }
+    &::-webkit-scrollbar{ 
+        @include size(16px, 16px);
+        @include colorbg(null, transparent);
+        @include display(none);
+        
+    }
+    &::-webkit-scrollbar-button{ 
+        @include display(none);
+    }
+    &::-webkit-scrollbar-track, &::-webkit-scrollbar-track-piece{ 
+        @include colorbg(null, transparent);
+        @include radius(2px);
+    }
+    &::-webkit-scrollbar-thumb{ 
+        @include colorbg(null, $grey_4);
+        @include radius(2px);
+    }
+    &::-webkit-scrollbar-thumb:hover{ 
+        @include colorbg(null, $grey_6);
+    }
+}
+
+%scroll-2{
+    &::-webkit-scrollbar{ 
+        @include size(14px, 14px);
+        @include colorbg(null, transparent);
+    }
+    &::-webkit-scrollbar-track, &::-webkit-scrollbar-track-piece{ 
+        @include colorbg(null, $black_rgba_1);
+        @include radius(2px);
+    }
+    &::-webkit-scrollbar-thumb{ 
+        @include colorbg(null, $grey_5);
+        @include radius(2px);
+    }
+    &::-webkit-scrollbar-thumb:hover{ 
+        @include colorbg(null, $grey_7);
+    }
+}
