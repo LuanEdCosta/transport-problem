@@ -24,3 +24,7 @@ Learn more about:
 ## :triangular_flag_on_post: Contribution
 
 This was a college project but if it helped you in some way, feel free to contribute.
+
+## :man: Author
+
+Luan Eduardo da Costa | [Follow me on Linkedin](https://www.linkedin.com/in/luaneducosta/)
