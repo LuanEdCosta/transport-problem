@@ -2,7 +2,7 @@
 
 This project was created in Fatec Americana in the discipline of Linear Programming and intend to solve the transport problem initialization.
 
-Click [HERE](https://luanedcosta.github.io/transport-problem/) to see it running in your browser.
+[CLICK HERE](https://luanedcosta.github.io/transport-problem/) to see it running in your browser.
 
 ## :question: What is the Transport Problem
 
@@ -18,8 +18,8 @@ Learn more about:
 ## :zap: How to run
 
 - git clone https://github.com/LuanEdCosta/transport-problem.git
-- Use Live Server VsCode extension or open the index.html file
-- Use the Live Sass Compiler VsCode extension to generate the CSS files
+- Use Live Server VsCode extension or open the index.html file.
+- Use the Live Sass Compiler VsCode extension to generate the CSS files.
 
 ## :triangular_flag_on_post: Contribution
 
